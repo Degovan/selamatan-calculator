@@ -1,11 +1,12 @@
 <?php
 
+use Selamatan\App\Utils\Config;
 use Selamatan\App\Utils\View;
 
 if(!function_exists('config')) {
     function config(string $name) {
         $names = explode('.', $name);
-        $config = require __DIR__ . "/../config/{$names[0]}.php";
+        $config = Config::load($names[0]);
 
         return $config[$names[1]];
     }
