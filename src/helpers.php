@@ -1,5 +1,7 @@
 <?php
 
+use Selamatan\App\Utils\View;
+
 if(!function_exists('config')) {
     function config(string $name) {
         $names = explode('.', $name);
@@ -10,7 +12,7 @@ if(!function_exists('config')) {
 }
 
 if(!function_exists('view')) {
-    function view(string $name) {
-        return require __DIR__ . "/Views/{$name}.php";
+    function view(string $name, object|array $params = []) {
+        View::factory()->render("{$name}.latte", $params);
     }
 }

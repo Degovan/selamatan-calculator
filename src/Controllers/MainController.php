@@ -8,6 +8,6 @@ class MainController
 {
     public function index(Request $request)
     {
-        return 'Hello World';
+        return view('home');
     }
 }

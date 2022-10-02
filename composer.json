@@ -10,5 +10,7 @@
             "./src/helpers.php"
         ]
     },
-    "require": {}
+    "require": {
+        "latte/latte": "^3.0"
+    }
 }
