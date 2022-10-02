@@ -9,6 +9,6 @@ class PageNotFoundException extends Exception
     public function __construct()
     {
         http_response_code(404);
-        return view('404');
+        return view('errors/404');
     }
 }
