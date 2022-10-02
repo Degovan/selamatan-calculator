@@ -28,8 +28,19 @@
 
 {block script}
 <script>
-    $('#submit-form').on('click', function(e) {
+    var baseUrl = {= config('app.url') }
+
+    $('#submit-form').on('submit', function(e) {
         e.preventDefault();
+
+        $.ajax({
+            url: baseUrl + 'api/selamatan',
+            method: 'post',
+            data: $(this).serialize(),
+            success: (data) => {
+                console.log(data);
+            }
+        });
     });
 </script>
 {/block}

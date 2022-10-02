@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e05fff9cc0795d3517c00beab392cd02",
+    "content-hash": "d5c3e8e5ab1b0e4db862bc3f044a970b",
     "packages": [
+        {
+            "name": "irsyadulibad/weton",
+            "version": "v0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/irsyadulibad/javanese-weton.git",
+                "reference": "0a2d8cfb5e483bcd16ba288e1efc7c9eb10c0dc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/irsyadulibad/javanese-weton/zipball/0a2d8cfb5e483bcd16ba288e1efc7c9eb10c0dc9",
+                "reference": "0a2d8cfb5e483bcd16ba288e1efc7c9eb10c0dc9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "pestphp/pest": "^1.21"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Irsyadulibad\\Weton\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "irsyadulibad",
+                    "email": "ahmadirsyadulibad7@gmail.com"
+                }
+            ],
+            "description": "Library to calculate and output the Javanese Weton",
+            "support": {
+                "issues": "https://github.com/irsyadulibad/javanese-weton/issues",
+                "source": "https://github.com/irsyadulibad/javanese-weton/tree/v0.3"
+            },
+            "time": "2022-10-02T12:23:55+00:00"
+        },
         {
             "name": "latte/latte",
             "version": "v3.0.3",

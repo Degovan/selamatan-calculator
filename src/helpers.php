@@ -17,3 +17,10 @@ if(!function_exists('view')) {
         View::factory()->render("{$name}.latte", $params);
     }
 }
+
+if(!function_exists('is_method')) {
+    function is_method(string $name) {
+        $method = $_SERVER['REQUEST_METHOD'];
+        return (strtoupper($name) == $method);
+    }
+}

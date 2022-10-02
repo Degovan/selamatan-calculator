@@ -11,6 +11,7 @@
         ]
     },
     "require": {
-        "latte/latte": "^3.0"
+        "latte/latte": "^3.0",
+        "irsyadulibad/weton": "^0.3.0"
     }
 }
