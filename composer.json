@@ -1,0 +1,14 @@
+{
+    "name": "degovan/selamatan-calculator",
+    "description": "Calculate the days of selamatan",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Selamatan\\App\\": "src/"
+        },
+        "files": [
+            "./src/helpers.php"
+        ]
+    },
+    "require": {}
+}
