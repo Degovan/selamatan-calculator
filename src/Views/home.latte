@@ -1,12 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamatan</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
-</html>
+{layout 'layouts/app.latte'}
+
+{block title}Home{/block}
+
+{block content}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card mt-4">
+            <div class="card-body">
+                <form action="" method="post" id="submit-form">
+                    <div class="mb-4">
+                        <label for="name">Nama</label>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>
+                    <div class="mb-4">
+                        <label for="date">Tanggal</label>
+                        <input type="date" name="date" id="date" class="form-control">
+                    </div>
+                    <div class="mb-2 text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="mt-4 table-responsive" id="days-place"></div>
+    </div>
+</div>
+{/block}
+
+{block script}
+<script>
+    var baseUrl = {= config('app.url') }
+    var days = {
+        first_day: 'Meninggal*',
+        third_day: '3 Hari',
+        seven_day: '7 Hari',
+        fourty_day: '40 Hari',
+        hundred_day: '100 Hari',
+        thousand_day: '1000 Hari'
+    };
+
+    function generateDays(data) {
+        let tableItems = '';
+
+        data.map((day) => {
+            const dayName = day[0];
+            const dayData = day[1];
+
+            tableItems += `
+            <tr>
+                <td>${ days[dayName] }</td>
+                <td>${ dayData.pasaran }</td>
+                <td>${ moment(dayData.date).locale('id').format('LL') }</td>
+            </tr>
+            `;
+        });
+
+        $('#days-place').html(`
+        <table class="table table-striped table-hover table-bordered">
+            <tr>
+                <th>Selamatan</th>
+                <th>Hari Pasaran</th>
+                <th>Tanggal</th>
+            </tr>
+            ${ tableItems }
+        </table>
+        `);
+    }
+
+    $('#submit-form').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: baseUrl + 'api/selamatan',
+            method: 'post',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: (data) => {
+                generateDays(Object.entries(data));
+            }
+        });
+    });
+</script>
+{/block}

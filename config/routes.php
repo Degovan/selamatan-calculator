@@ -1,5 +1,6 @@
 <?php
 
+use Selamatan\App\Controllers\Api\SelamatanController;
 use Selamatan\App\Controllers\MainController;
 
 /**
@@ -9,4 +10,5 @@ use Selamatan\App\Controllers\MainController;
  */
 return [
     '/'  => [MainController::class, 'index'],
+    '/api/selamatan' => [SelamatanController::class, 'selamatan'],
 ];

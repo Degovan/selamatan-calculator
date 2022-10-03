@@ -21,4 +21,9 @@ class Request
         return array_key_exists($name, $this->_data)
             ? $this->_data[$name] : null;
     }
+
+    public function all()
+    {
+        return $this->_data;
+    }
 }
