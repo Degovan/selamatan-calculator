@@ -2,10 +2,12 @@
 
 namespace Selamatan\App\Controllers;
 
+use Selamatan\App\Utils\Request;
+
 class MainController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return 'sip';
+        return view('home');
     }
 }

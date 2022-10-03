@@ -3,6 +3,7 @@
 namespace Selamatan\App;
 
 use Selamatan\App\Exceptions\PageNotFoundException;
+use Selamatan\App\Utils\Request;
 
 class Application
 {
@@ -26,7 +27,8 @@ class Application
     public function run()
     {
         $controller = new $this->controller;
-        $called = call_user_func([$controller, $this->method]);
+        $request = new Request;
+        $called = call_user_func([$controller, $this->method], $request);
 
         if(is_string($called)) echo $called;
     }
