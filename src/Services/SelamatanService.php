@@ -8,11 +8,13 @@ use Irsyadulibad\Weton\Weton;
 class SelamatanService
 {
     public array $days = [
-        'third_day' => 3,
-        'seven_day' => 7,
-        'fourty_day' => 40,
-        'hundred_day' => 100,
-        'thousand_day' => 1000,
+        'third_day' => '+3 days',
+        'seven_day' => '+7 days',
+        'fourty_day' => '+40 days',
+        'hundred_day' => '+100 days',
+        'one_year' => '+1 year',
+        'two_year' => '+2 years',
+        'thousand_day' => '+1000 days',
     ];
 
     protected DateTimeImmutable $date;
@@ -32,7 +34,7 @@ class SelamatanService
         ];
 
         foreach($this->days as $day => $count) {
-            $date = $this->date->modify("+{$count} days");
+            $date = $this->date->modify($count);
 
             $selamatans[$day] = [
                 'pasaran' => $this->getWeton($date),
