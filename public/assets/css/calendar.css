@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.calendar {
+    border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
+    background-color: #e9ecef;
+    margin-bottom: 1em;
+    padding: 1em;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+}
+
+.calendar .calendar-month td {
+    text-align: center;
+    padding: .7em;
+    font-size: 1em;
+}
+
+.calendar .calendar-day th {
+    width: 3em;
+    text-align: center;
+    font-size: .9em;
+}
+
+.calendar .calendar-date td {
+    text-align: center;
+    padding: .75em 0;
+    border-radius: 100%;
+    font-size: .9em;
+}
+
+.calendar .calendar-date td.today {
+    background-color: #0d6efd;
+    color: white;
+    font-weight: bold;
+}
+
+.calendar .calendar-date td.active {
+    background-color: #20c997;
+    color: white;
+    font-weight: bold;
+}
+
+.calendar .calendar-date td:hover {
+    background-color: #ced4da;
+}
+
+.calendar .calendar-date td.active:hover {
+    background-color: #1aa179;
+    cursor: progress;
+}
+
+.calendar .calendar-date td.inactive:hover {
+    background-color: transparent;
+}

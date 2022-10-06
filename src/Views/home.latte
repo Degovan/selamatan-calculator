@@ -3,7 +3,7 @@
 {block title}Home{/block}
 
 {block content}
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-4">
     <div class="col-md-5">
         <div class="card mt-4">
             <div class="card-body">
@@ -27,6 +27,8 @@
         <div class="mt-4 table-responsive" id="days-place"></div>
     </div>
 </div>
+
+<div class="row justify-content-left mt-4" id="calendar-row"></div>
 {/block}
 
 {block script}
@@ -42,6 +44,33 @@
         two_year: 'Pendak pindo',
         thousand_day: '1000 Hari'
     };
+
+    function generateCalendars(data) {
+        const calendarRow = $('#calendar-row');
+        calendarRow.html('');
+
+        data.map((day, i) => {
+            const dayName = day[0];
+            const dayData = day[1];
+            const mmt = moment(dayData.date).locale('id');
+
+            calendarRow.append(`
+                <div class="col-md-4">
+                    <h6 class="ps-3 m-0 mt-5">
+                        <strong>${ days[dayName] }</strong> | ${ dayData.pasaran }
+                    </h6>
+                    <p class="ps-3 text-secondary m-0 mb-3">
+                        <small>${ mmt.format('LL') }</small>
+                        <i class="fas fa-square-check"></i>
+                    </p>
+                    <div class="calendar" id="calendar${ i }"></div>
+                </div>
+            `);
+
+            const calendarEl = document.getElementById(`calendar${ i }`);
+            createCalendar(calendarEl, new Date(dayData.date), mmt.format('MMMM Y'));
+        });
+    }
 
     function generateDays(data) {
         let tableItems = '';
@@ -81,6 +110,7 @@
             dataType: 'json',
             success: (data) => {
                 generateDays(Object.entries(data));
+                generateCalendars(Object.entries(data));
             }
         });
     });
