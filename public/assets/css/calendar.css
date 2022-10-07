@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+@media print {
+    body {
+        -webkit-print-color-adjust: exact !important;
+    }
+}
+
 .calendar {
     border-collapse: collapse;
     border-radius: 1em;
@@ -30,11 +36,11 @@
     font-size: .9em;
 }
 
-.calendar .calendar-date td.today {
+/* .calendar .calendar-date td.today {
     background-color: #0d6efd;
     color: white;
     font-weight: bold;
-}
+} */
 
 .calendar .calendar-date td.active {
     background-color: #20c997;
@@ -53,4 +59,8 @@
 
 .calendar .calendar-date td.inactive:hover {
     background-color: transparent;
+}
+
+@media print {
+    body {-webkit-print-color-adjust: exact;}
 }

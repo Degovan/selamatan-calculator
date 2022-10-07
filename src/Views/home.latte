@@ -22,19 +22,31 @@
                 </form>
             </div>
         </div>
+        <div class="card d-none mt-2" id="print-area">
+            <div class="card-body d-flex justify-content-between">
+                <button class="btn btn-danger" id="print-table">
+                    <i class="fas fa-fw fa-table"></i> Cetak Tabel
+                </button>
+                <button class="btn btn-success" id="print-calendar">
+                    <i class="fas fa-fw fa-calendar"></i> Cetak Kalender
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 mt-4">
+    <div class="col-md-6 mt-4" id="selamatan-table">
         <h6 id="name-place"></h6>
         <div class="table-responsive" id="days-place"></div>
     </div>
 </div>
 
-<div class="row justify-content-center mt-4">
-    <div class="col-md-6">
-        <h5 id="name-place-calendar" class="text-center fw-bold mt-4"></h5>
+<div id="selamatan-calendar">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <h5 id="name-place-calendar" class="text-center fw-bold mt-4"></h5>
+        </div>
     </div>
+    <div class="row justify-content-left" id="calendar-row"></div>
 </div>
-<div class="row justify-content-left" id="calendar-row"></div>
 {/block}
 
 {block script}
@@ -128,8 +140,12 @@
                 generateDays(Object.entries(data.selamatan));
                 generateCalendars(Object.entries(data.selamatan));
                 updateName(data.selamatan.first_day.date, data.name);
+                $('#print-area').toggleClass('d-none');
             }
         });
     });
+
+    $('#print-table').click(() => { $('#selamatan-table').printThis() });
+    $('#print-calendar').click(() => { $('#selamatan-calendar').printThis() });
 </script>
 {/block}
