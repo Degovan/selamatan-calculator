@@ -13,6 +13,11 @@ class SelamatanController
         if(!is_method('post')) throw new PageNotFoundException;
 
         $service = new SelamatanService($request->date);
-        return json_encode($service->count());
+        $name = strlen($request->name) > 0 ? $request->name : 'Si Fulan';
+
+        return json_encode([
+            'name' => $name,
+            'selamatan' => $service->count(),
+        ]);
     }
 }

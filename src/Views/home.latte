@@ -23,12 +23,18 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="mt-4 table-responsive" id="days-place"></div>
+    <div class="col-md-6 mt-4">
+        <h6 id="name-place"></h6>
+        <div class="table-responsive" id="days-place"></div>
     </div>
 </div>
 
-<div class="row justify-content-left mt-4" id="calendar-row"></div>
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <h5 id="name-place-calendar" class="text-center fw-bold mt-4"></h5>
+    </div>
+</div>
+<div class="row justify-content-left" id="calendar-row"></div>
 {/block}
 
 {block script}
@@ -100,6 +106,16 @@
         `);
     }
 
+    function updateName(date, name) {
+        const since = moment().diff(moment(date), 'days');
+
+        $('#name-place').text(`
+            Almarhum ${ name } sudah meninggal selama ${ since } hari
+        `);
+
+        $('#name-place-calendar').text(`Kalender Selamatan ${ name }`);
+    }
+
     $('#submit-form').on('submit', function(e) {
         e.preventDefault();
 
@@ -109,8 +125,9 @@
             data: $(this).serialize(),
             dataType: 'json',
             success: (data) => {
-                generateDays(Object.entries(data));
-                generateCalendars(Object.entries(data));
+                generateDays(Object.entries(data.selamatan));
+                generateCalendars(Object.entries(data.selamatan));
+                updateName(data.selamatan.first_day.date, data.name);
             }
         });
     });
