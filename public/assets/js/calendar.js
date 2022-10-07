@@ -9,6 +9,7 @@ function createCalendar(element, date, title) {
 
     let renderedDate = 0;
     let table = `
+      
         <table>
             <tr class="calendar-month">
                 <td colspan="7">${ title }</td>
