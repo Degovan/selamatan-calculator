@@ -62,7 +62,7 @@
         hundred_day: '100 Hari',
         one_year: 'Pendak pisan',
         two_year: 'Pendak pindo',
-        thousand_day: '1000 Hari'
+        thousand_day: '1000 Hari',
     };
     
     
@@ -110,6 +110,7 @@
                 <td>${ days[dayName] }</td>
                 <td>${ dayData.pasaran }</td>
                 <td>${ moment(dayData.date).locale('id').format('LL') }</td>
+                <td>${ moment(dayData.date).isAfter(moment()) ? 'Belum' : 'Terlewat'}</td>
             </tr>
             `;
         });
@@ -120,6 +121,7 @@
                 <th>Selamatan</th>
                 <th>Hari Pasaran</th>
                 <th>Tanggal</th>
+                <th>Status</th>
             </tr>
             ${ tableItems }
         </table>
