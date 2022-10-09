@@ -10,15 +10,16 @@
                 <form action="" method="post" id="submit-form">
                     <div class="mb-4">
                         <label for="name">Nama</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Masukan nama orang yang meninggal">
                     </div>
                     <div class="mb-4">
                         <label for="date">Tanggal</label>
                         <input type="date" name="date" id="date" class="form-control">
                     </div>
-                    <div class="mb-2 text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="mb-2 ">
+                        <button type="submit" class="btn btn-primary">Hitung</button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -45,6 +46,7 @@
             <h5 id="name-place-calendar" class="text-center fw-bold mt-4"></h5>
         </div>
     </div>
+    
     <div class="row justify-content-left" id="calendar-row"></div>
 </div>
 {/block}
@@ -62,6 +64,10 @@
         two_year: 'Pendak pindo',
         thousand_day: '1000 Hari',
     };
+    
+    
+    let today = moment().format('yyyy-MM-DD');
+    $('#date').val(today);
 
     function generateCalendars(data) {
         const calendarRow = $('#calendar-row');
@@ -73,7 +79,8 @@
             const mmt = moment(dayData.date).locale('id');
 
             calendarRow.append(`
-                <div class="col-md-4">
+            <div class="line-padding col-md-4">
+                 <div>
                     <h6 class="ps-3 m-0 mt-5">
                         <strong>${ days[dayName] }</strong> | ${ dayData.pasaran }
                     </h6>
@@ -82,6 +89,7 @@
                         <i class="fas fa-square-check"></i>
                     </p>
                     <div class="calendar" id="calendar${ i }"></div>
+                </div>
                 </div>
             `);
 
@@ -132,8 +140,18 @@
 
     $('#submit-form').on('submit', function(e) {
         e.preventDefault();
+        
+        let name = $('#name').val();
 
-        $.ajax({
+        if(name.trim(" ") == ""){
+        Swal.fire({
+            icon: 'error',
+            title: 'Kamu lupa Sesuatu...',
+            text: 'Input nama tidak boleh kosong!',
+         })
+        $('#name').focus();
+        }else{
+       $.ajax({
             url: baseUrl + 'api/selamatan',
             method: 'post',
             data: $(this).serialize(),
@@ -145,6 +163,9 @@
                 $('#print-area').toggleClass('d-none');
             }
         });
+
+        }
+   
     });
 
     $('#print-table').click(() => { $('#selamatan-table').printThis() });
