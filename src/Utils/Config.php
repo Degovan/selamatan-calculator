@@ -17,4 +17,5 @@ class Config
 
         return static::$config[$name];
     }
+
 }
