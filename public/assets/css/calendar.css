@@ -25,6 +25,10 @@
     color: white !important;
     font-weight: bold !important;
   }
+
+  .calendar .calendar-date td.active.passed {
+    background-color: #fd7e14 !important;
+  }
 }
 
 .calendar {
@@ -67,6 +71,10 @@
   background-color: #20c997;
   color: white;
   font-weight: bold;
+}
+
+.calendar .calendar-date td.active.passed {
+  background-color: #fd7e14;
 }
 
 .calendar .calendar-date td:hover {

@@ -39,7 +39,12 @@ function createCalendar(element, date, title) {
             }
 
             if(isToday) classes.push('today');
-            if(renderedDate == (dayDate -1 )) classes.push('active');
+            if(renderedDate == (dayDate - 1 )) {
+                const isPassed = getPassed(dayDate);
+                classes.push('active');
+
+                if(isPassed) classes.push('passed');
+            }
 
             table += `<td class="${ classes.join(' ') }">${ ++renderedDate }</td>`;
         }
@@ -59,6 +64,11 @@ function createCalendar(element, date, title) {
     function getDay(day) {
         day = (new Date(year, month, day)).getDay();
         return (day == 0) ? 6 : day - 1;
+    }
+
+    function getPassed(date) {
+        const event = new Date(year, month, date);
+        return (today.getTime() > event.getTime());
     }
 
     element.innerHTML = table;
