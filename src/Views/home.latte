@@ -53,6 +53,19 @@
     
     <div class="row justify-content-left" id="calendar-row"></div>
 </div>
+
+<div class="modal fade" id="ads-modal" tabindex="-1" aria-labelledby="ads-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>Ads goes here...</h1>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" disabled>Wait <span id="ads-countdown"></span>...</button>
+            </div>
+        </div>
+    </div>
+</div>
 {/block}
 
 {block script}
@@ -72,6 +85,26 @@
     
     let today = moment().format('yyyy-MM-DD');
     $('#date').val(today);
+
+    function showAds(callback) {
+        let second = 3;
+        let interval = 0;
+        const adModal = new bootstrap.Modal('#ads-modal', {
+            backdrop: 'static',
+            keyboard: false,
+        });
+
+        adModal.show();
+
+        interval = setInterval(() => {
+            if(!second) {
+                clearInterval(interval);
+                callback(adModal);
+            }
+
+            $('#ads-countdown').text(`${ second-- }s`);
+        }, 1000);
+    }
 
     function generateCalendars(data) {
         const calendarRow = $('#calendar-row');
@@ -172,7 +205,18 @@
    
     });
 
-    $('#print-table').click(() => { $('#selamatan-table').printThis() });
-    $('#print-calendar').click(() => { $('#selamatan-calendar').printThis() });
+    $('#print-table').click(() => {
+        showAds((modal) => {
+            $('#selamatan-table').printThis();
+            modal.hide();
+        });
+    });
+
+    $('#print-calendar').click(() => {
+        showAds((modal) => {
+            $('#selamatan-calendar').printThis();
+            modal.hide();
+        });
+    });
 </script>
 {/block}
