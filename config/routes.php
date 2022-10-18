@@ -10,5 +10,6 @@ use Selamatan\App\Controllers\MainController;
  */
 return [
     '/'  => [MainController::class, 'index'],
+    '/latte' => [MainController::class, 'latte'],
     '/api/selamatan' => [SelamatanController::class, 'selamatan'],
 ];

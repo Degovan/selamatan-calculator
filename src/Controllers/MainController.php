@@ -8,6 +8,11 @@ class MainController
 {
     public function index(Request $request)
     {
+        return view('complete.html', [], false);
+    }
+
+    public function latte(Request $request)
+    {
         return view('home');
     }
 }

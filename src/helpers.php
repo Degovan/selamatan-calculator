@@ -13,8 +13,9 @@ if(!function_exists('config')) {
 }
 
 if(!function_exists('view')) {
-    function view(string $name, object|array $params = []) {
-        View::factory()->render("{$name}.latte", $params);
+    function view(string $name, object|array $params = [], bool $latte = true) {
+        if($latte) return View::factory()->render("{$name}.latte", $params);
+        return require __DIR__ . "/Views/{$name}";
     }
 }
 

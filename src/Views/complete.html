@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamatan</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.2.0/css/all.css">
+    <link rel="stylesheet" href="/assets/css/calendar.css">
+</head>
+<body>
+    <div class="container">
+        <div class="banner justify-content-center text-center mt-5 mb-5">
+            <h2>Menghitung Hari Selametan Orang Meninggal</h2>
+        </div>
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-5">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <form action="" method="post" id="submit-form">
+                            <div class="mb-4">
+                                <label for="name">Nama</label>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Masukan nama orang yang meninggal">
+                            </div>
+                            <div class="mb-4">
+                                <label for="date">Tanggal</label>
+                                <input type="date" name="date" id="date" class="form-control">
+                            </div>
+                            <div class="mb-2 ">
+                                <button type="submit" class="btn btn-primary">Hitung</button>
+                            </div>
+        
+                        </form>
+                    </div>
+                </div>
+                <div class="card d-none mt-2" id="print-area">
+                    <div class="card-body d-flex justify-content-between">
+                        <button class="btn btn-danger" id="print-table">
+                            <i class="fas fa-fw fa-table"></i> Cetak Tabel
+                        </button>
+                        <button class="btn btn-success" id="print-calendar">
+                            <i class="fas fa-fw fa-calendar"></i> Cetak Kalender
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4" id="selamatan-table">
+                <h6 id="name-place"></h6>
+                <div class="table-responsive" id="days-place"></div>
+            </div>
+        </div>
+        
+        <div id="selamatan-calendar">
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-6">
+                    <h5 id="name-place-calendar" class="text-center fw-bold mt-4"></h5>
+                </div>
+            </div>
+            
+            <div class="row justify-content-left" id="calendar-row"></div>
+        </div>
+        
+        <div class="modal fade" id="ads-modal" tabindex="-1" aria-labelledby="ads-modal-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1>Ads goes here...</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" disabled>Wait <span id="ads-countdown"></span>...</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/id.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.38/dist/sweetalert2.all.min.js"></script>
+    <script src="https://jasonday.github.io/printThis/printThis.js"></script>
+    <script src="/assets/js/calendar.js"></script>
+
+    <script>
+        var baseUrl = '/';
+        var days = {
+            first_day: 'Meninggal*',
+            third_day: '3 Hari',
+            seven_day: '7 Hari',
+            fourty_day: '40 Hari',
+            hundred_day: '100 Hari',
+            one_year: 'Pendak pisan',
+            two_year: 'Pendak pindo',
+            thousand_day: '1000 Hari',
+        };
+        
+        
+        let today = moment().format('yyyy-MM-DD');
+        $('#date').val(today);
+
+        function showAds(callback) {
+            let second = 3;
+            let interval = 0;
+            const adModal = new bootstrap.Modal('#ads-modal', {
+                backdrop: 'static',
+                keyboard: false,
+            });
+
+            adModal.show();
+
+            interval = setInterval(() => {
+                if(!second) {
+                    clearInterval(interval);
+                    callback(adModal);
+                }
+
+                $('#ads-countdown').text(`${ second-- }s`);
+            }, 1000);
+        }
+
+        function generateCalendars(data) {
+            const calendarRow = $('#calendar-row');
+            calendarRow.html('');
+
+            data.map((day, i) => {
+                const dayName = day[0];
+                const dayData = day[1];
+                const mmt = moment(dayData.date).locale('id');
+
+                calendarRow.append(`
+                <div class="line-padding col-md-4">
+                    <div>
+                        <h6 class="ps-3 m-0 mt-5">
+                            <strong>${ days[dayName] }</strong> | ${ dayData.pasaran }
+                        </h6>
+                        <p class="ps-3 text-secondary m-0 mb-3">
+                            <small>${ mmt.format('LL') }</small>
+                            <i class="fas fa-square-check"></i>
+                        </p>
+                        <div class="calendar" id="calendar${ i }"></div>
+                    </div>
+                    </div>
+                `);
+
+                const calendarEl = document.getElementById(`calendar${ i }`);
+                createCalendar(calendarEl, new Date(dayData.date), mmt.format('MMMM Y'));
+            });
+        }
+
+        function generateDays(data) {
+            let tableItems = '';
+
+            data.map((day) => {
+                const dayName = day[0];
+                const dayData = day[1];
+
+                tableItems += `
+                <tr>
+                    <td>${ days[dayName] }</td>
+                    <td>${ dayData.pasaran }</td>
+                    <td>${ moment(dayData.date).locale('id').format('LL') }</td>
+                    <td>${ moment(dayData.date).isAfter(moment()) ? 'Belum' : 'Terlewat'}</td>
+                </tr>
+                `;
+            });
+
+            $('#days-place').html(`
+            <table class="table table-striped table-hover table-bordered">
+                <tr>
+                    <th>Selamatan</th>
+                    <th>Hari Pasaran</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                </tr>
+                ${ tableItems }
+            </table>
+            `);
+        }
+
+        function updateName(date, name) {
+            const since = moment().diff(moment(date), 'days');
+
+            $('#name-place').text(`
+                Almarhum ${ name } sudah meninggal selama ${ since } hari
+            `);
+
+            $('#name-place-calendar').text(`Kalender Selamatan ${ name }`);
+        }
+
+        $('#submit-form').on('submit', function(e) {
+            e.preventDefault();
+            
+            let name = $('#name').val();
+
+            if(name.trim(" ") == ""){
+            Swal.fire({
+                icon: 'error',
+                title: 'Kamu lupa Sesuatu...',
+                text: 'Input nama tidak boleh kosong!',
+            })
+            $('#name').focus();
+            }else{
+        $.ajax({
+                url: baseUrl + 'api/selamatan',
+                method: 'post',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: (data) => {
+                    generateDays(Object.entries(data.selamatan));
+                    generateCalendars(Object.entries(data.selamatan));
+                    updateName(data.selamatan.first_day.date, data.name);
+                    $('#print-area').toggleClass('d-none');
+                }
+            });
+
+            }
+    
+        });
+
+        $('#print-table').click(() => {
+            showAds((modal) => {
+                $('#selamatan-table').printThis();
+                modal.hide();
+            });
+        });
+
+        $('#print-calendar').click(() => {
+            showAds((modal) => {
+                $('#selamatan-calendar').printThis();
+                modal.hide();
+            });
+        });
+    </script>
+</body>
+</html>
